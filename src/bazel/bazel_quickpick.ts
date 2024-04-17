@@ -66,48 +66,95 @@ export class BazelTargetQuickPick
 }
 
 /**
- * Runs the given bazel query command in the given bazel workspace and returns
- * the resulting array of BazelTargetQuickPick as a promise.
- * @param workspace The bazel workspace to run the bazel command from.
- * @param query The bazel query string to run.
+ * Use the active text editor's file to determine the directory of the Bazel
+ * workspace, otherwise have them pick one.
  */
-async function queryWorkspaceQuickPickTargets(
-  workspaceInfo: BazelWorkspaceInfo,
-  query: string,
-): Promise<BazelTargetQuickPick[]> {
+async function pickBazelWorkspace(): Promise<BazelWorkspaceInfo | undefined> {
+  if (vscode.window.activeTextEditor === undefined) {
+    return BazelWorkspaceInfo.fromWorkspaceFolders();
+  } else {
+    const document = vscode.window.activeTextEditor.document;
+    return BazelWorkspaceInfo.fromDocument(document);
+  }
+}
+
+export interface QuickPickParams {
+  // The bazel query string to run.
+  query?: string;
+  // The bazel workspace to run the bazel command from.
+  workspaceInfo?: BazelWorkspaceInfo;
+}
+
+/**
+ * Runs the given bazel query command in the given bazel workspace and returns
+ * the resulting array of BazelTargetQuickPick.
+ *
+ * If no workspace is given, uses an automatically determined bazel
+ * workspace. The workspace is determined by trying to determine the bazel
+ * workspace the currently active text editor is in.
+ */
+export async function queryQuickPickTargets({
+  query,
+  workspaceInfo,
+}: QuickPickParams): Promise<BazelTargetQuickPick[]> {
+  if (workspaceInfo === undefined) {
+    // Ask the user to pick a workspace, if we don't have one, yet
+    workspaceInfo = await pickBazelWorkspace();
+  }
+
+  if (workspaceInfo === undefined) {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    vscode.window.showErrorMessage("Failed to find a Bazel workspace");
+    return [];
+  }
+
   const queryResult = await new BazelQuery(
     getDefaultBazelExecutablePath(),
     workspaceInfo.workspaceFolder.uri.fsPath,
-  ).queryTargets(query);
+  ).queryTargets(query ?? "//...:*");
   // Filter out targets that ends with '_nix'
   // eslint-disable-next-line max-len
   const filteredQueryResult = queryResult.target.filter((target) => !target.rule.name.endsWith('_nix'));
   // Sort the labels so the QuickPick is ordered.
   const labels = filteredQueryResult.map((target) => target.rule.name);
   labels.sort();
-  const result: BazelTargetQuickPick[] = [];
-  for (const target of labels) {
-    result.push(new BazelTargetQuickPick(target, workspaceInfo));
-  }
-  return result;
+  return labels.map(
+    (target) => new BazelTargetQuickPick(target, workspaceInfo),
+  );
 }
 
 /**
- * Runs a bazel query command for pacakges in the given bazel workspace and
- * returns the resulting array of BazelTargetQuickPick as a promise.
- * @param workspace The bazel workspace to run the bazel command from.
+ * Runs the given bazel query command in the given bazel workspace and returns
+ * the resulting array of BazelTargetQuickPick.
+ *
+ * If no workspace is given, uses an automatically determined bazel
+ * workspace. The workspace is determined by trying to determine the bazel
+ * workspace the currently active text editor is in.
  */
-async function queryWorkspaceQuickPickPackages(
-  workspaceInfo: BazelWorkspaceInfo,
-): Promise<BazelTargetQuickPick[]> {
+export async function queryQuickPickPackage({
+  query,
+  workspaceInfo,
+}: QuickPickParams): Promise<BazelTargetQuickPick[]> {
+  if (workspaceInfo === undefined) {
+    // Ask the user to pick a workspace, if we don't have one, yet
+    workspaceInfo = await pickBazelWorkspace();
+  }
+
+  if (workspaceInfo === undefined) {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    vscode.window.showErrorMessage("Failed to find a Bazel workspace");
+    return [];
+  }
+
   const packagePaths = await new BazelQuery(
     getDefaultBazelExecutablePath(),
     workspaceInfo.workspaceFolder.uri.fsPath,
-  ).queryPackages(
-    vscode.workspace
-      .getConfiguration("bazel.commandLine")
-      .get("queryExpression"),
+  ).queryPackages(query ?? "//...");
+
+  return packagePaths.map(
+    (target) => new BazelTargetQuickPick("//" + target, workspaceInfo),
   );
+<<<<<<< HEAD
   const result: BazelTargetQuickPick[] = [];
   for (const target of packagePaths) {
     result.push(new BazelTargetQuickPick("//" + target, workspaceInfo));
@@ -179,4 +226,6 @@ export async function queryQuickPickPackage(): Promise<BazelTargetQuickPick[]> {
   }
 
   return queryWorkspaceQuickPickPackages(workspace);
+=======
+>>>>>>> master
 }

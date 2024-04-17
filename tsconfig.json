@@ -8,11 +8,13 @@
         ],
         "sourceMap": true,
         "rootDir": ".",
-        "alwaysStrict": true,
-        "allowJs": true
+        "strict": true,
+        "strictNullChecks": false,
+        "allowJs": true,
     },
     "exclude": [
         "node_modules",
-        "out"
+        "out",
+        "eslint.config.js"
     ]
 }

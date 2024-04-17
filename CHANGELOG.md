@@ -1,6 +1,39 @@
 # Change Log
 
-## Version 0.8.1 (January 2, 2024)
+## [0.10.0](https://github.com/bazelbuild/vscode-bazel/compare/0.9.0...v0.10.0) (2024-04-09)
+
+
+### Features
+
+* Add `bazel.info.workspace` command variable ([#351](https://github.com/bazelbuild/vscode-bazel/issues/351)) ([8ae24cf](https://github.com/bazelbuild/vscode-bazel/commit/8ae24cf235cfe66078be7deab86f4f83ac25bbd1))
+* Add buildifier Json File Configuration ([#357](https://github.com/bazelbuild/vscode-bazel/issues/357)) ([afc3aed](https://github.com/bazelbuild/vscode-bazel/commit/afc3aeddfce0821a10a0b1fa889855a2a12a2433))
+* Introduce `pickTarget` and `pickPackage` command variables ([#354](https://github.com/bazelbuild/vscode-bazel/issues/354)) ([2ef6d2a](https://github.com/bazelbuild/vscode-bazel/commit/2ef6d2ad3f30700bc7076e8d3b7d42e81abb1ed2))
+* Pick up `.buildifier.json` configuration from the Bazel workspace root ([#350](https://github.com/bazelbuild/vscode-bazel/issues/350)) ([c2f3f8c](https://github.com/bazelbuild/vscode-bazel/commit/c2f3f8cb486edb079d129db0c08b53535f88a20c))
+* Support bazel tasks from tasks.json ([#346](https://github.com/bazelbuild/vscode-bazel/issues/346)) ([f2426e4](https://github.com/bazelbuild/vscode-bazel/commit/f2426e4e29c88e04cb1589f518c169804deda70f))
+* Support relative paths for bazel.buildifierExecutable ([#350](https://github.com/bazelbuild/vscode-bazel/issues/350)) ([c2f3f8c](https://github.com/bazelbuild/vscode-bazel/commit/c2f3f8cb486edb079d129db0c08b53535f88a20c))
+* Support running buildifier through Bazel ([#350](https://github.com/bazelbuild/vscode-bazel/issues/350)) ([c2f3f8c](https://github.com/bazelbuild/vscode-bazel/commit/c2f3f8cb486edb079d129db0c08b53535f88a20c))
+
+
+### Bug Fixes
+
+* Activate the extension automatically ([#344](https://github.com/bazelbuild/vscode-bazel/issues/344)) ([085262e](https://github.com/bazelbuild/vscode-bazel/commit/085262ea23607449f098b1cb47b6f4b9b4c84881))
+* Add a welcome view to the Bazel Build Targets tree view ([#372](https://github.com/bazelbuild/vscode-bazel/issues/372)) ([1cbdfd6](https://github.com/bazelbuild/vscode-bazel/commit/1cbdfd6ad60b2bcee04dd4e689b2ac04f37672d2))
+* Don't wait on the "Buildifier not found" notification ([#368](https://github.com/bazelbuild/vscode-bazel/issues/368)) ([8b659a2](https://github.com/bazelbuild/vscode-bazel/commit/8b659a23875e80ba278b99846e019cddb2c99338))
+* Enable the "Restart LSP" command only if the language server is enabled ([#345](https://github.com/bazelbuild/vscode-bazel/issues/345)) ([15793a4](https://github.com/bazelbuild/vscode-bazel/commit/15793a40abb6127cbe08b53827440f6938a09369))
+* Hide commands which are intended to be command variables ([#347](https://github.com/bazelbuild/vscode-bazel/issues/347)) ([6d3e988](https://github.com/bazelbuild/vscode-bazel/commit/6d3e9884e345e754706f20d847e1f86b8729f40c))
+
+## 0.9.0 (February 20, 2024)
+
+### New Features
+
+- Support relative target completion (@kon72)
+- Add support for launching an LSP (@cameron-martin)
+
+### Bug fixes
+
+- Make queries share the same server by default (@limdor)
+
+## 0.8.1 (January 2, 2024)
 
 ### Bug Fixes
 
@@ -12,7 +45,7 @@
 - Migrate to eslint (@hypdeb)
 - Upgrade typescript (@cameron-martin)
 
-## Version 0.8.0 (December 15, 2023)
+## 0.8.0 (December 15, 2023)
 
 ### New Features
 
@@ -40,7 +73,7 @@
 - Optimized performance of `bazel query` operations (@iamricard)
 - CI updated to Node 20 (@jfirebaugh)
 
-## Version 0.7.0 (December 6, 2022)
+## 0.7.0 (December 6, 2022)
 
 ### New Features
 
@@ -69,7 +102,7 @@
           }
       ]
 
-## Version 0.6.0 (September 14, 2022)
+## 0.6.0 (September 14, 2022)
 
 ### New Features
 
@@ -94,7 +127,7 @@
 
 - return `default` for .sky files in getBuildifierFileType (@arahatashun)
 
-## Version 0.5.0 (October 29, 2021)
+## 0.5.0 (October 29, 2021)
 
 ### New Features
 
@@ -111,13 +144,13 @@
 
 We would like to thank Alex Frasson, Chi Wang, ericisko, hensom, Jonathan Dierksen and Neil Ding for their great contributions.
 
-## Version 0.4.1 (April 14, 2021)
+## 0.4.1 (April 14, 2021)
 
 ### Bug Fixes
 
 - Fix CVE-2021-22539: Malicious project can cause vscode-bazel to run arbitrary executable when linting a \*.bzl file.
 
-## Version 0.4.0 (August 21, 2020)
+## 0.4.0 (August 21, 2020)
 
 ### New Features
 
@@ -128,7 +161,7 @@ We would like to thank Alex Frasson, Chi Wang, ericisko, hensom, Jonathan Dierks
 - WORKSPACE.bazel files are now properly recognized.
 - We made multiple improvements to Windows support.
 
-## Version 0.3.0 (September 19, 2019)
+## 0.3.0 (September 19, 2019)
 
 ### Breaking Changes
 
@@ -151,7 +184,7 @@ We would like to thank Alex Frasson, Chi Wang, ericisko, hensom, Jonathan Dierks
 - BUILD files named `BUILD.bazel` are now correctly treated as BUILD files,
   not `bzl` files, for the purposes of formatting and linting.
 
-## Version 0.2.0 (May 15, 2019)
+## 0.2.0 (May 15, 2019)
 
 ### New Features
 
@@ -179,7 +212,7 @@ We would like to thank Alex Frasson, Chi Wang, ericisko, hensom, Jonathan Dierks
 - Fixed issue where VS Code would hang when the Bazel Build Targets view was
   opened and a workspace folder was _not_ part of a Bazel workspace.
 
-## Version 0.1.0 (January 23, 2019)
+## 0.1.0 (January 23, 2019)
 
 ### New Features
 
@@ -204,10 +237,10 @@ We would like to thank Alex Frasson, Chi Wang, ericisko, hensom, Jonathan Dierks
   is now presented that allows the user to type or select which target should
   be built or tested.
 
-## Version 0.0.2 (November 28, 2018)
+## 0.0.2 (November 28, 2018)
 
 - Fix an issue where runtime dependencies were listed as development dependencies.
 
-## Version 0.0.1 (November 28, 2018)
+## 0.0.1 (November 28, 2018)
 
 - Initial release.
